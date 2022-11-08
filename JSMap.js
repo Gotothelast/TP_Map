@@ -26,18 +26,39 @@ function bike(xhttp) {
     console.log(obj);
     for (i=0 ; i<obj.length ; i++)
     {
-        var marker = L.marker([obj[i].position.lat, obj[i].position.lng]).addTo(map).bindPopup("  Adresse:"+obj[i].address+".  Vélo dispo:"+obj[i].available_bikes+ '<button onclick=addFav()>Print</button>');
+
+            var marker = L.marker([obj[i].position.lat, obj[i].position.lng]).addTo(map).bindPopup("  Adresse:" + obj[i].address + ".  Vélo dispo:" + obj[i].available_bikes + "<button onclick=addFav(" + i + ")>Print</button>");
 
     }
 }
 
-function addFav()
+function addFav(i)
 {
-    var Favoris = localStorage.setItem('Fav' + i, obj[i].address);
-    console.log(localStorage.getItem('Fav' + i));
+    localStorage.setItem('Fav' + i, i);
+    console.log(localStorage.getItem('Fav' +i));
 
+    /*if (localStorage.getItem('Fav' +i)===true)
+    {
+        console.log(localStorage.getItem('Fav' +i));
+        var YellowIcon = L.icon
+        ({
+            iconUrl: 'image/YellowMarker.png',
+            iconSize:     [38, 95], // size of the icon
+            shadowSize:   [50, 64], // size of the shadow
+            iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+            shadowAnchor: [4, 62],  // the same for the shadow
+            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+        })
+        var marker = L.marker([obj[i].position.lat, obj[i].position.lng],{icon:YellowIcon}).addTo(map).bindPopup("  Adresse:"+obj[i].address+".  Vélo dispo:"+obj[i].available_bikes+ "<button onclick=addFav("+ i +")>Print</button>");
+
+    }
+
+    else
+    {
+
+        var marker = L.marker([obj[i].position.lat, obj[i].position.lng]).addTo(map).bindPopup("  Adresse:" + obj[i].address + ".  Vélo dispo:" + obj[i].available_bikes + "<button onclick=addFav("+ i +")>Print</button>");
+    }*/
 }
-
 
 
 
