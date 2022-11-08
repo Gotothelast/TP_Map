@@ -6,7 +6,8 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 }).addTo(map);
 
-var YellowIcon = L.icon
+var iconimgurl = 'image/GreenMarker.png';
+var RedIcon = L.icon
 ({
     iconUrl: 'image/RedMarker.png',
     iconSize:     [38, 95], // size of the icon
@@ -15,8 +16,18 @@ var YellowIcon = L.icon
     shadowAnchor: [4, 62],  // the same for the shadow
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 })
+
+var GreenIcon = L.icon
+({
+    iconUrl: 'image/GreenMarker.png',
+    iconSize:     [38, 95], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+})
 //marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
-var api= "https://api.jcdecaux.com/vls/v1/stations?apiKey=e5cf20fe05e76267eaf0161b758ec0ea1179d0cb";
+var api= "https://api.jcdecaux.com/vls/v1/stations?contract=lyon&apiKey=e5cf20fe05e76267eaf0161b758ec0ea1179d0cb";
 
 loadDoc(api,bike);
 
@@ -29,37 +40,52 @@ function loadDoc(url,cfunction) {
 
 };
 
+function addFav(i)
+{
+    localStorage.setItem('Fav' + i, i);
+    console.log(localStorage.getItem('Fav' + i));
+
+}
 
 function bike(xhttp) {
     const obj = JSON.parse(xhttp.response);
     console.log(obj);
     for (i=0 ; i<obj.length ; i++)
     {
-        if (obj[i].available_bikes>0)
-        {
-            var marker = L.marker([obj[i].position.lat, obj[i].position.lng],{icon:YellowIcon}).addTo(map).bindPopup("  Adresse:"+obj[i].address+".  Vélo dispo:"+obj[i].available_bikes+ "<button onclick=addFav("+ i +"),loadDoc(api,bike)>Print</button>");
+if (localStorage.getItem('Fav' + i)===true)
+{
+    //Comparé la station actuelle dans le tableau avec le contenu du local storage
+    // if Actuelle station in local storage :
+    iconimgurl='image/etoile.png'
 
-        }
-        if (localStorage.getItem('Fav' +i)==true)
-            {
-                console.log(localStorage.getItem('Fav' +i));
+}
+    if (obj[i].available_bikes===0)
+    {
+        iconimgurl = 'image/RedMarker.png';
+    }
+    else
+    {
+        iconimgurl = 'image/GreenMarker.png';
+    }
+        var icon = L.icon
+        ({
+            iconUrl: iconimgurl,
+            iconSize:     [38, 95], // size of the icon
+            shadowSize:   [50, 64], // size of the shadow
+            iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+            shadowAnchor: [4, 62],  // the same for the shadow
+            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+        })
 
-                var marker = L.marker([obj[i].position.lat, obj[i].position.lng],{icon:YellowIcon}).addTo(map).bindPopup("  Adresse:"+obj[i].address+".  Vélo dispo:"+obj[i].available_bikes+ "<button onclick=addFav("+ i +"),loadDoc(api,bike)>Print</button>");
 
-            }
+            marker = L.marker([obj[i].position.lat, obj[i].position.lng],{icon:icon}).addTo(map).bindPopup("  Adresse:"+obj[i].address+".  Vélo dispo:"+obj[i].available_bikes+ "<button onclick=addFav("+ i +"),loadDoc(api,bike)>Print</button>");
 
-        else
-            {
-                var marker = L.marker([obj[i].position.lat, obj[i].position.lng]).addTo(map).bindPopup("  Adresse:" + obj[i].address + ".  Vélo dispo:" + obj[i].available_bikes + "<button onclick=addFav("+ i +")>Print</button>");
-            }
+
+
+
     }
 }
 
-function addFav(i)
-{
-    localStorage.setItem('Fav' + i, i);
-    console.log(localStorage.getItem('Fav' +i));
-}
 
 
 
