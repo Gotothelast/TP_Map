@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Titre de la page</title>
     <link rel="stylesheet" href="StyleMap.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
@@ -11,10 +12,34 @@
             integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
             crossorigin=""></script>
 
+
 </head>
 <body>
+<div class="container">
+    <div id="loader"></div>
+</div>
 <div id="map"></div>
 <div id="loki"></div>
+<h1 id="demo"></h1>
+
+
+
 </body>
 <script src="JSMap.js"></script>
+<script>
+    document.onreadystatechange = function()
+    {
+        if (document.readyState !== "complete")
+        {
+            document.querySelector("body").style.visibility = "hidden";
+            document.getElementById("loader").style.visibility = "visible";
+        }
+        else
+        {
+            document.getElementById('loader').remove();
+            document.querySelector("body").style.visibility = "visible";
+        }
+    };
+
+</script>
 </html>

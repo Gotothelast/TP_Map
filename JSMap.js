@@ -25,7 +25,12 @@ function loadDoc(url,cfunction) {
 function addFav(i)
 {
     localStorage.setItem('Fav'+i, i);
+}
 
+function delFav(i)
+{
+    localStorage.setItem('Fav'+i, i);
+    localStorage.removeItem('Fav'+i)
 }
 
 function bike(xhttp) {
@@ -41,6 +46,7 @@ function bike(xhttp) {
     {
         iconimgurl = 'image/etoile.png';
     }
+
     else
     {
         iconimgurl = 'image/GreenMarker.png';
@@ -53,9 +59,9 @@ function bike(xhttp) {
             popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
         })
 
-        marker = L.marker([obj[i].position.lat, obj[i].position.lng],{icon:icon}).addTo(map).bindPopup("  Adresse:"+obj[i].address+".  Vélo dispo:"+obj[i].available_bikes+ "<button onclick=addFav("+ i +"),loadDoc(api,bike)>Print</button>");
-
-
+        marker = L.marker([obj[i].position.lat, obj[i].position.lng],{icon:icon}).addTo(map).bindPopup("  Adresse:"+obj[i].address+".  Vélo dispo:"+obj[i].available_bikes
+            + "<button onclick=delFav("+ i +"),loadDoc(api,bike)>Supprimer FAV</button>"
+            + "<button onclick=addFav("+ i +"),loadDoc(api,bike)>Ajouter FAV</button>");
 
     }
 
