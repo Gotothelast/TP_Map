@@ -31,13 +31,13 @@
     {
         if (document.readyState !== "complete")
         {
-            document.querySelector("body").style.visibility = "hidden";
-            document.getElementById("loader").style.visibility = "visible";
+            document.querySelector("body").style.zIndex= "1";
+            document.getElementById("loader").style.zIndex= "2";
         }
         else
         {
-            document.getElementById('loader').remove();
-            document.querySelector("body").style.visibility = "visible";
+            document.getElementById('loader').style.zIndex= "1";
+            document.querySelector("body").style.zIndex= "2";
         }
     };
 
